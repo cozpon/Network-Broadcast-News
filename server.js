@@ -25,7 +25,7 @@ server.on('error', (err) => {
   throw err;
 });
 
-server.listen(6969, '10.0.1.161', () => {
+server.listen(6969, '0.0.0.0', () => {
   console.log("Server Active, daddio!");
 });
 
