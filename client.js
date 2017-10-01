@@ -1,25 +1,16 @@
 // jshint esversion:6
+let PORT = process.env.PORT || 6969;
 const net = require('net');
-const client = new net.connect(6969, '0.0.0.0', () => {
-  client.write("This is Client, saying hello to Server");
-  process.stdin.on('readable', () => {
-    const chunk = process.stdin.read();
-    if(chunk !== null) {
-      client.write(chunk.toString());
-    }
-  });
-});
-  client.on('error', (err) => {
-  throw err;
-});
 
-client.on('data', (chunk) => {
-console.log("Message from Server:", chunk.toString());
+const server = new net.Socket();
+server.connect(PORT, '10.0.1.161', () => {
+console.log(`connectedtoServer, ${PORT}`, "daddio!");
+  // |---- readable
+  // v                 v---- writable
+  process.stdin.pipe( server );
+
+  // |---- readable
+  // v         v---- writable
+  server.pipe( process.stdout );
 });
-
-client.on('end', () => {
-  console.log("client disconnected");
-});
-
-
 
